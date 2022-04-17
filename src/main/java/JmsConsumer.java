@@ -47,26 +47,27 @@ public class JmsConsumer {
                 break;
             }
         }
+        */
 
-        */
         /*
-         * 通過監聽方式消費消息
-         * 異部非阻塞方式(監聽器onMessage())
+         * 異部非阻塞方式(監聽器onMessage())，通過監聽方式消費消息
          * 訂閱者或接收者通過MessageConsumer的onMessage方法
-        */
+         */
         messageConsumer.setMessageListener(new MessageListener() {
             @Override
             public void onMessage(Message message) {
                 if (null != message && message instanceof TextMessage) {
                     TextMessage textMessage = (TextMessage) message;
                     try {
-                        System.out.println("Consumer接收到消息" + textMessage.getText());
+                        System.out.println("Consumer接收到消息:" + textMessage.getText());
+                        System.out.println("Consumer接收到消息屬性:" + textMessage.getStringProperty("c01"));
                     } catch (JMSException e) {
                         e.printStackTrace();
                     }
                 }
             }
         });
+        
 
         System.in.read(); // 保證服務不滅(如果連接到一半跑完就往下走close會消費不到)
         // 6. 關閉資源

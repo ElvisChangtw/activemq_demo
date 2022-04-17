@@ -30,12 +30,12 @@ public class JmsProduce {
 
         // 5. 建立消息生產者
         MessageProducer messageProducer = session.createProducer(queue);
-
+        messageProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
         // 6. 通過使用messageProducer生產三條消息發送到MQ的queue裡面
-        for(int i = 1; i <= 6; i++){
+        for (int i = 1; i <= 6; i++) {
             // 7. 建立消息
             TextMessage textMessage = session.createTextMessage("msg---" + i);// 理解為一個String
-
+            textMessage.setStringProperty("c01", "vip");
             // 8. 通過messageProducer發送給MQ
             messageProducer.send(textMessage);
         }
@@ -44,9 +44,7 @@ public class JmsProduce {
         messageProducer.close();
         session.close();
         connection.close();
-
         System.out.println("訊息發佈到MQ完成");
-
 
 
     }
